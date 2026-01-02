@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -30,14 +33,28 @@ pipeline {
                 }
             }
         }
-        stage('Push Image') {
-          steps {
-            script {
-              docker.withRegistry('', 'dockerhub') {
-                dockerImage.push()
-              }
+        stage('Login') {
+            steps {
+                script {
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                }
             }
-          }
+        }
+        stage('Push') {
+            steps {
+                script {
+                    dockerImage.push()
+                }
+            }
+        }
+    }
+    post {
+        always {
+            steps {
+                script {
+                    sh 'docker logout'
+                }
+            }
         }
     }
 }
