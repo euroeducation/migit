@@ -50,11 +50,11 @@ pipeline {
     }
     post {
         always {
-            steps {
-                script {
-                    sh 'docker logout'
-                }
+            
+            script {
+                sh 'docker logout'
             }
+            
         }
     }
 }
