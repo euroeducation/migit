@@ -1,4 +1,3 @@
-def dockerImage
 pipeline {
     agent any
     stages {
@@ -27,16 +26,18 @@ pipeline {
             steps {
                 script {
                     sh 'mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)'
-                    dockerImage = docker.build("pedrojgonzalo/my-jenkins-created-image")
+                    dockerImage = docker.build("pedrojgonzalo/my-jenkins-created-image:${env.BUILD_NUMBER}")
                 }
             }
         }
-        stage('Push image') {
-            steps {
-                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {            
-                    dockerImage.push("${env.BUILD_NUMBER}")
-                }
+        stage('Push Image') {
+          steps {
+            script {
+              docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+                dockerImage.push()
+              }
             }
+          }
         }
     }
 }
