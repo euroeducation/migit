@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    def dockerImage
     stages {
         stage('Checkout') {
             steps {
@@ -26,7 +27,7 @@ pipeline {
             steps {
                 script {
                     sh 'mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)'
-                    dockerImage = docker.build("my-jenkins-created-image:${env.BUILD_NUMBER}")
+                    dockerImage = docker.build("pedrojgonzalo/my-jenkins-created-image:${env.BUILD_NUMBER}")
                 }
             }
         }
