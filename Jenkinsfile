@@ -27,7 +27,14 @@ pipeline {
             steps {
                 script {
                     sh 'mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)'
-                    dockerImage = docker.build("pedrojgonzalo/my-jenkins-created-image:${env.BUILD_NUMBER}")
+                    dockerImage = docker.build("pedrojgonzalo/my-jenkins-created-image")
+                }
+            }
+        }
+        stage('Push image') {
+            steps {
+                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {            
+                    dockerImage.push("${env.BUILD_NUMBER}")
                 }
             }
         }
