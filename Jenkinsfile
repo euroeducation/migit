@@ -22,5 +22,12 @@ pipeline {
                 }
             }
         }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("my-jenkins-created-image:0.0.1")
+                }
+            }
+        }
     }
 }
