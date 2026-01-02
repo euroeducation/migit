@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     sh 'mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)'
-                    dockerImage = docker.build("my-jenkins-created-image:0.0.1")
+                    dockerImage = docker.build("my-jenkins-created-image:${env.BUILD_NUMBER}")
                 }
             }
         }
