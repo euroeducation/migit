@@ -60,7 +60,7 @@ pipeline {
         stage('Remove Docker Image') {
             steps {
                 script {
-                    sh 'docker rmi pedrojgonzalo/my-jenkins-created-image:${env.BUILD_NUMBER}'
+                    sh 'docker rmi pedrojgonzalo/my-jenkins-created-image:$BUILD_NUMBER'
                 }
             }
         }
