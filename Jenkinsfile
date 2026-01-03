@@ -47,6 +47,22 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to k8s') {
+            steps {
+                script {
+                    sh 'kind load docker-image pedrojgonzalo/my-jenkins-created-image:${env.BUILD_NUMBER} -n development'
+                    sh "sed -i 's,IMAGE_NAME, pedrojgonzalo/my-jenkins-created-image:${env.BUILD_NUMBER}' deploymentservice.yaml"
+                    sh 'kubectl apply -f deploymentservice.yaml'
+                }
+            }
+        }
+        stage('Remove Docker Image') {
+            steps {
+                script {
+                    sh 'docker rmi pedrojgonzalo/my-jenkins-created-image:${env.BUILD_NUMBER}'
+                }
+            }
+        }
     }
     post {
         always {
