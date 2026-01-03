@@ -50,8 +50,8 @@ pipeline {
         stage('Deploy to k8s') {
             steps {
                 script {
-                    sh 'kind load docker-image pedrojgonzalo/my-jenkins-created-image:${env.BUILD_NUMBER} -n development'
-                    sh "sed -i 's,IMAGE_NAME, pedrojgonzalo/my-jenkins-created-image:${env.BUILD_NUMBER}' deploymentservice.yaml"
+                    sh 'kind load docker-image pedrojgonzalo/my-jenkins-created-image:$BUILD_NUMBER -n development'
+                    sh "sed -i 's,IMAGE_NAME, pedrojgonzalo/my-jenkins-created-image:$BUILD_NUMBER' deploymentservice.yaml"
                     sh 'kubectl apply -f deploymentservice.yaml'
                 }
             }
