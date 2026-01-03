@@ -7,8 +7,8 @@ metadata:
 spec:
   ports:
   - name: http
-    port: 80
-    targetPort: 80
+    port: 8181
+    targetPort: 8181
   - name: https
     port: 8080
     targetPort: 80
@@ -39,7 +39,7 @@ spec:
       - image: IMAGE_NAME
         name: test-image
         ports:
-        - containerPort: 8080
+        - containerPort: 8181
           name: http
         - containerPort: 80
           name: httpa
